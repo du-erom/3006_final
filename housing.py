@@ -171,13 +171,16 @@ def main():
     args = parser.parse_args()
     #log that we parsed the arguements
     #logger.info('Parsed command line arguments sort by %s and  %s' %(args.sort, args.command))
-    try:
-        o = HousingData()
-        logger.info('HousingData object successfully created.')
-    except Exception as e:
-        logger.error('An exception occured while trying to create a HousingData object.')
-    o.state_out()
-    o.metro_out()
+    if args.reload == True or os.path.isfile('metro_housing_data.csv')==False or os.path.isfile('state_housing_data.csv')==False:
+        try:
+            o = HousingData()
+            logger.info('HousingData object successfully created.')
+        except Exception as e:
+            logger.error('An exception occured while trying to create a HousingData object.')
+        o.state_out()
+        o.metro_out()
+    else:
+        logging.debug('The data subset files already exist.')
     logging.debug('End of main function! Your program ran to completion.')
 if __name__ == '__main__':
     main()
