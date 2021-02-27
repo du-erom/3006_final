@@ -4,6 +4,7 @@
 #
 import pandas as pd
 from collections import namedtuple
+import logging
 
 """
 This class defines functions for processing the us-counties data.
@@ -44,6 +45,7 @@ def load_data(data_file):
     """
     with open(data_file, "r") as counties_data:
         df = pd.read_csv(counties_data)
+    logging.debug("loaded %s", data_file)
     return df
 
 
@@ -58,18 +60,52 @@ def find_fips_for_cbsa(cbsa_code, is_central, df):
     list of FipsData namedtuple for matching rows
     """
     if "CBSA Code" in df:
+        logging.debug("finding fips code for cbsa code %s, central flag %s", cbsa_code, is_central)
         central_keyword = "Central" if is_central else "Outlying"
         fips_df = df[(df["CBSA Code"] == cbsa_code) & (df["Central/Outlying County"] == central_keyword)]
         result = []
         for row in fips_df.iterrows():
             # row is s tuple, 0 position is an index, 1 position is series with named columns
             result.append(FipsData(row[1][9], row[1][10]))
+        logging.debug("returning %d items", len(result))
         return result
     else:
+        logging.error("dataframe not supported for this query")
         raise ValueError("'CBSA Code' not in the supplied dataframe")
 
 
-def group_by_state(df):
+def population_by_fips(fips_list, df):
+    """
+    Calculate total population over the selected FIPS identifiers
+    :param fips_list: the FipsData list to filter on
+    :param df: the census_population df
+    :return:
+    Total Population summed across the FIPS selectors
+    """
+    if "SUMLEV" in df:
+        logging.debug("summing population across %d areas", len(fips_list))
+        state_ids = set([f.state_id for f in fips_list])
+        county_ids = set([f.county_id for f in fips_list])
+        result = df[(df["STATE"].isin(state_ids)) & (df["COUNTY"].isin(county_ids))]
+        logging.debug("found %d matches", len(result))
+        population = result["POPESTIMATE2019"].sum()
+        logging.debug("population = %d", population)
+        return population
+    else:
+        logging.error("dataframe not supported for this query")
+        raise ValueError("SUMLEV not in the dataframe")
+
+
+def group_covid_by_fips(fips_list, df):
+    """
+    Group the covid data by the specified FIPS identifiers per day.
+    :param fips_list: FipsData list
+    :param df: the census dataframe
+    :return:
+    DataFrame with Group by Fips schema for matching records
+    """
+
+def group_by_state(fips_list, df):
     """
     Group the us-counties data by state for each day
     :param df: the us-counties data frame

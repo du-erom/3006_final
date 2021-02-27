@@ -8,17 +8,16 @@ Main data data processing pipeline.
 1. Load the data
 """
 COUNTIES_SOURCE_DATA = "../data/us-counties.csv"
-CENSUS_DATA = "../data/census_cbsa.csv"
-
+CENSUS_REGION_DATA = "../data/census_cbsa.csv"
+CENSUS_POPULATION_DATA = "../data/census_population_only_estimates_2019.csv"
 
 def main():
     counties_covid_df = cdp.load_data(COUNTIES_SOURCE_DATA)
     print(counties_covid_df.info(verbose=True))
-    census_place_df = cdp.load_data(CENSUS_DATA)
+    census_place_df = cdp.load_data(CENSUS_REGION_DATA)
     print(census_place_df.info(verbose=True))
-    county_fips, state_fips = cdp.find_fips_for_cbsa("10100", True, census_place_df)
-    print(county_fips, state_fips)
-
+    population_df = cdp.load_data(CENSUS_POPULATION_DATA)
+    print(population_df.info(verbose=True))
 
 if __name__ == "__main__":
     main()
