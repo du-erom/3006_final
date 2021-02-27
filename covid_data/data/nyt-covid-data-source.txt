@@ -1,0 +1,2 @@
+From: https://github.com/nytimes/covid-19-data.git
+Captured on 02/23/2021

@@ -1,0 +1,5 @@
+https://www.census.gov/library/reference/code-lists/ansi/ansi-codes-for-states.html
+
+This file contains pipe delimited records for each state. The records are of the format:
+
+FIPS State Code | Official United States Postal Service (USPS) Code | Name | Geographic Names Information System Identifier (GNISID)
