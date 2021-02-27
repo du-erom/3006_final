@@ -171,11 +171,11 @@ def main():
     args = parser.parse_args()
     #log that we parsed the arguements
     #logger.info('Parsed command line arguments sort by %s and  %s' %(args.sort, args.command))
-    #try:
-    o = HousingData()
-    logger.info('HousingData object successfully created.')
-    #except Exception as e:
-        #logger.error('An exception occured while trying to create a HousingData object.')
+    try:
+        o = HousingData()
+        logger.info('HousingData object successfully created.')
+    except Exception as e:
+        logger.error('An exception occured while trying to create a HousingData object.')
     o.state_out()
     o.metro_out()
     logging.debug('End of main function! Your program ran to completion.')
