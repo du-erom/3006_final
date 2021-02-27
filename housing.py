@@ -4,8 +4,8 @@ import csv
 import logging
 import argparse
 import unittest
-import matplotlib as plt
-import numpy as np
+#import matplotlib as plt
+#import numpy as np
 from collections import namedtuple, defaultdict
 
 logger = logging.getLogger()
@@ -35,14 +35,14 @@ class Housing:
         self.level = level
         self.place_name = place_name
         self.place_id = place_id
-        self.year = year
-        self.period = period
-        self.index_nsa = index_nsa
+        self.year = int(year)
+        self.period = int(period)
+        self.index_nsa = float(index_nsa)
         logger.debug('Housing object created for %s, Q%d %d' %(self.place_name, \
         self.period, self.year))
     def __repr__(self):
-        return('Housing (%s, %s, %s, %s, %s, %s, %d, %d, %2f, %2f)' \
-        %(self.hpi_type, self.hpi_flavor, self.level, self.placename, self.place_id, \
+        return('Housing (%s, %s, %s, %s, %s, %d, %d, %2f)' \
+        %(self.hpi_type, self.hpi_flavor, self.level, self.place_name, self.place_id, \
         self.year, self.period, self.index_nsa))
         logger.debug('repr called for Housing object')
     def __str__(self):
@@ -59,6 +59,60 @@ class HousingData:
     #method to interate through HousingData object
     def __iter__(self):
         iter([list(self.state_data), list(self.metro_data)])
+    #method to parse lines from the csv data into Housing objects
+    def parse_line(self, line):
+        #define the named tuple Record
+        Record = namedtuple('Record', 'hpi_type hpi_flavor frequency level place_name place_id year period index_nsa index_sa')
+        #instantiate a record object with the data from the csv file
+        c = Record(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9])
+        #records csv data into Housing data object
+        h = Housing(c.hpi_type, c.hpi_flavor, c.level, c.place_name, c.place_id, c.year, c.period, c.index_nsa, c.index_sa)
+        logger.debug('Housing obeject created for %s' %repr(h))
+        return h
+    #method that looks at a housing object and decides if it should be included in state data
+    def sort_state(self, z):
+            #looks for state in level,  traditional in type, for years greater than 2014
+            if z.level == 'State' and z.hpi_type == 'traditional' and z.year > 2014:
+                return True
+            else:
+                return False
+    #method that looks at a housing object and decides if it should be included\
+    #in the metro data
+    def sort_metro(self, z):
+        #looks for Metro Statistical Area in level, all-transactions flavor,
+        #and years greater than 2014
+        if z.level == 'MSA'and z.hpi_flavor == 'all-transactions' and z.year >2014:
+            return True
+        #looks for non-metro in type, state in level, and year greater than 2014
+        if z.hpi_type == 'non-metro' and z.level == 'State' and z.year > 2014:
+            return True
+        else:
+            return False
+    #method for writing state data out to a .csv file
+    def state_out(self):
+        s= self.state_data
+        file = 'state_housing_data.csv'
+        with open(file, 'w', newline = '') as f:
+            writer = csv.writer(f)
+            header = ['hpi_type', 'hpi_flavor', 'level', 'placename', 'place_id', 'year', 'quarter', 'index_nsa']
+            writer.writerow(header)
+            for a in s:
+                r = [a.hpi_type, a.hpi_flavor, a.level, a.place_name, a.place_id, a.year, a.period, a.index_nsa]
+                writer.writerow(r)
+                logger.debug('Record for %s saved to state data file.' %repr(a))
+            logger.info('Saved state data to state_housing_data.csv.')
+    def metro_out(self):
+        h= self.metro_data
+        file = 'metro_housing_data.csv'
+        with open(file, 'w', newline = '') as f:
+            writer = csv.writer(f)
+            header = ['hpi_type', 'hpi_flavor', 'level', 'placename', 'place_id', 'year', 'quarter', 'index_nsa']
+            writer.writerow(header)
+            for a in h:
+                r = [a.hpi_type, a.hpi_flavor, a.level, a.place_name, a.place_id, a.year, a.period, a.index_nsa]
+                writer.writerow(r)
+                logger.debug('Record for %s saved to metro data file.' %repr(a))
+            logger.info('Saved state data to metro_housing_data.csv.')
     #method to load state data from FHFA HSI master csv file
     def _load_data(self):
         #instantiate an empty file for the sate housing data
@@ -79,7 +133,7 @@ class HousingData:
         with open(raw_file) as file:
             logger.debug('Housing data file opened')
             #uses the csv reader to read the data
-            reader = csv.reader(file, delimter = ',')
+            reader = csv.reader(file)
             logger.debug('csv reader object instantiated')
             #skip the header line
             next(reader, None)
@@ -96,60 +150,6 @@ class HousingData:
                     logger.debug('added record for %s to HousingData metro_data' %repr(z))
             logger.debug('Finished reading data file')
             return (state_data, metro_data)
-        #method that looks at a housing object and decides if it should be included in state data
-        def sort_state(self, z):
-                #looks for state in level,  traditional in type, for years greater than 2014
-                if z.level == 'State' and z.hpi_type == 'traditional' and z.year > 2014:
-                    return True
-                else:
-                    return False
-        #method that looks at a housing object and decides if it should be included\
-        #in the metro data
-        def sort_metro(self, z):
-            #looks for Metro Statistical Area in level, all-transactions flavor,
-            #and years greater than 2014
-            if z.level == 'MSA'and z.hpi_flavor == 'all-transactions' and z.year >2014:
-                return True
-            #looks for non-metro in type, state in level, and year greater than 2014
-            if z.hpi_type == 'non-metro' and z.level == 'State' and z.year > 2014:
-                return True
-            else:
-                return False
-        #method to parse lines from the csv data into Housing objects
-        def parse_line(self, line):
-            #define the named tuple Record
-            Record = namedtuple('Record', 'hpi_type hpi_flavor frequency level place_name place_id year period index_nsa index_sa')
-            #instantiate a record object with the data from the csv file
-            c = Record(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10])
-            #records csv data into Housing data object
-            h = Housing(c.hpi_type, c.hpi_flavor, c.level, c.place_name, c.place_id, c.year, c.period, c.index_nsa, c.index_sa)
-            logger.debug('Housing obeject created for %s' %repr(h))
-            return h
-        #method for writing state data out to a .csv file
-        def state_out(self):
-            s= self.state_data
-            file = 'state_housing_data.csv'
-            with open(file, 'w', newline = '') as f:
-                writer = csv.writer(f)
-                header = ['hpi_type', 'hpi_flavor', 'level', 'placename', 'place_id', 'year', 'quarter', 'index_nsa']
-                writer.writerow(header)
-                for a in s:
-                    r = [a.hpi_type, a.hpi_flavor, a.level, a.placename, a.place_id, a.year, a.period, a.index_nsa]
-                    writer.writerow(r)
-                    logger.debug('Record for %s saved to state data file.' %repr(a))
-                logger.info('Saved state data to state_housing_data.csv.')
-        def metro_out(self):
-            h= self.metro_data
-            file = 'metro_housing_data.csv'
-            with open(file, 'w', newline = '') as f:
-                writer = csv.writer(f)
-                header = ['hpi_type', 'hpi_flavor', 'level', 'placename', 'place_id', 'year', 'quarter', 'index_nsa']
-                writer.writerow(header)
-                for a in s:
-                    r = [a.hpi_type, a.hpi_flavor, a.level, a.placename, a.place_id, a.year, a.period, a.index_nsa]
-                    writer.writerow(r)
-                    logger.debug('Record for %s saved to metro data file.' %repr(a))
-                logger.info('Saved state data to metro_housing_data.csv.')
 def main():
     parser = argparse.ArgumentParser(description = \
     'Accept optional sorting arguments')
@@ -171,11 +171,11 @@ def main():
     args = parser.parse_args()
     #log that we parsed the arguements
     #logger.info('Parsed command line arguments sort by %s and  %s' %(args.sort, args.command))
-    try:
-        o = HousingData()
-        logger.info('HousingData object successfully created.')
-    except Exception as e:
-        logger.error('An exception occured while trying to create a HousingData object.')
+    #try:
+    o = HousingData()
+    logger.info('HousingData object successfully created.')
+    #except Exception as e:
+        #logger.error('An exception occured while trying to create a HousingData object.')
     o.state_out()
     o.metro_out()
     logging.debug('End of main function! Your program ran to completion.')
