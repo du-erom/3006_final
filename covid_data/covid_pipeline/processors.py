@@ -33,8 +33,11 @@ class FipsData:
         """
         return self.state_id == other.state_id and self.county_id == other.county_id
 
-    def __repr__(self):
+    def __str__(self):
         print(f"Fips: state id : {self.state_id}, county id : {self.county_id}")
+
+    def __repr__(self):
+        return self.__str__()
 
 def load_data(data_file):
     """
