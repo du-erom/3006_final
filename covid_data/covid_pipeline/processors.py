@@ -36,7 +36,6 @@ class FipsData:
     def __repr__(self):
         print(f"Fips: state id : {self.state_id}, county id : {self.county_id}")
 
-
 def load_data(data_file):
     """
     Load us-counties.csv data into a pandas data frame
@@ -102,21 +101,23 @@ def group_covid_by_fips(fips_list, df):
     :param fips_list: FipsData list
     :param df: the census dataframe
     :return:
-    DataFrame with Group by Fips schema for matching records
+    DataFrame with source df schema
     """
+    if "cases" in df:
+        query_fips = list(map(covid_fips, fips_list))
+        logging.debug("querying over covid_ips ids: %s", query_fips)
+        query_result = df[df["fips"].isin(query_fips)]
+        return query_result.groupby(["date"], as_index=False).sum()
+    else:
+        logging.error("dataframe not supported for this query")
+        raise ValueError("cases not in the dataframe")
 
-def group_by_state(fips_list, df):
+
+def covid_fips(fips_data):
     """
-    Group the us-counties data by state for each day
-    :param df: the us-counties data frame
+    Construct the covid data fips id which is state_id*1000 + county_id
+    :param fips_data: a FipsData instance
     :return:
-    Dataframe of date,  num_records, state, min, max, mean, sum, num_records
+    synthetic covid data fips id
     """
-def group_counties(county_ids, df):
-    """
-    Calculates min, max, mean, sum, num_records for data grouping by the list of fips id for each day in the dataset
-    :param county_names: array of fips ids
-    :param df: the us-counties data frame
-    :return:
-    pandas data frame of date,num_records,min,max,mean,sum
-    """
+    return fips_data.state_id * 1000 + fips_data.county_id

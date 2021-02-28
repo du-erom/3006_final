@@ -65,3 +65,48 @@ class TestProcessors(unittest.TestCase):
             with self.subTest(f"test index {index}"):
                 result = processors.population_by_fips(test_data.fips_selectors, test_df)
                 self.assertEqual(test_data.expected_population, result)
+
+    def test_group_covid_by_fips(self):
+        test_file = "../data/test/us-counties-nh.csv"
+        TestCovidData = namedtuple("CovidData", ["date", "total_cases"])
+        TestData = namedtuple("TestData", ["fips_selector", "expected_series"])
+        test_dataset = [TestData([FipsData(33, 1)], [TestCovidData('2020-03-21', 3),
+                                                     TestCovidData('2020-03-22', 4),
+                                                     TestCovidData('2020-03-23', 7),
+                                                     TestCovidData('2020-03-24', 7),
+                                                     TestCovidData('2020-03-25', 8)]),
+                        TestData([FipsData(33, 1),
+                                  FipsData(33, 9)], [TestCovidData('2020-03-21', 17),
+                                                     TestCovidData('2020-03-22', 19),
+                                                     TestCovidData('2020-03-23', 27),
+                                                     TestCovidData('2020-03-24', 28),
+                                                     TestCovidData('2020-03-25', 30)
+                                                     ]),
+
+                        TestData([FipsData(33, 1),
+                                  FipsData(33, 9),
+                                  FipsData(33, 15)], [TestCovidData('2020-03-21', 42),
+                                                      TestCovidData('2020-03-22', 47),
+                                                      TestCovidData('2020-03-23', 65),
+                                                      TestCovidData('2020-03-24', 70),
+                                                      TestCovidData('2020-03-25', 86)
+                                                      ])
+                        ]
+        test_df = processors.load_data(test_file)
+        for index, test_data in enumerate(test_dataset):
+            with self.subTest(f"test index {index}"):
+                result_df = processors.group_covid_by_fips(test_data.fips_selector, test_df)
+                self.assertEqual(len(test_data.expected_series), len(result_df))
+                for expected_records in test_data.expected_series:
+                    result = result_df[result_df["date"] == expected_records.date]
+                    self.assertEqual(1, len(result))
+
+    def test_covid_fips(self):
+        TestData = namedtuple("TestData", ["fips", "expected_value"])
+        test_dataset = [TestData(FipsData(33, 15), 33015),
+                        TestData(FipsData(8, 31), 8031),
+                        TestData(FipsData(6, 59), 6059),
+                        TestData(FipsData(53, 67), 53067)]
+        for test_data in test_dataset:
+            covid_fips_id = processors.covid_fips(test_data.fips)
+            self.assertEqual(test_data.expected_value, covid_fips_id)
