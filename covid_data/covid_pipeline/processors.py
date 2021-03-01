@@ -116,6 +116,15 @@ def group_covid_by_fips(fips_list, df):
         raise ValueError("cases not in the dataframe")
 
 
+def append_difference(diff_field_name, source_field, sort_fields, df):
+    """
+    Append a difference field to the dataframe.
+    Question how to only apply difference to rows with the same fips values and not on the boundary between
+    fips fields.
+    N/A set for difference when row is the first row for the sort fields.
+    """
+    return df
+
 def covid_fips(fips_data):
     """
     Construct the covid data fips id which is state_id*1000 + county_id

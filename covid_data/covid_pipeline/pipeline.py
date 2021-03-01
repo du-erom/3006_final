@@ -30,18 +30,27 @@ def main():
     fips = cdp.find_fips_for_cbsa(12060, True, census_cbsa_df)
     covid_df = cdp.load_data(COUNTIES_SOURCE_DATA)
     covid_data = cdp.group_covid_by_fips(fips, covid_df)
+    covid_data["dCases"] = covid_data["cases"] - covid_data["cases"].shift(1)
     shape = covid_data.shape
     logging.info("covid_data size %s", covid_data.shape)
-    plt.figure(1)
+    plt.figure(1, figsize=(10,10))
     plt.plot(covid_data["date"], covid_data["cases"])
     plt.xticks(np.arange(0, shape[0]+1, 20.0), rotation=90)
-    plt.title("Census Region: Georia, Central")
+    plt.title("Census Region: Georgia, Central")
+    plt.xlabel("Date")
+    plt.ylabel("Total Cases")
+    plt.tight_layout()
+    plt.savefig("sample1.png")
+    plt.show()
+    plt.figure(2, figsize=(10,10))
+    plt.plot(covid_data["date"], covid_data["dCases"])
+    plt.xticks(np.arange(0, shape[0]+1, 20.0), rotation=90)
+    plt.title("Census Region: Georgia, Central")
     plt.xlabel("Date")
     plt.ylabel("Total New Cases/Day")
     plt.tight_layout()
-    plt.savefig("sample.png")
+    plt.savefig("sample2.png")
     plt.show()
-
 
 
 
