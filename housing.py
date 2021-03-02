@@ -4,8 +4,8 @@ import csv
 import logging
 import argparse
 import unittest
-#import matplotlib as plt
-#import numpy as np
+import matplotlib as plt
+import numpy as np
 from collections import namedtuple, defaultdict
 
 logger = logging.getLogger()
@@ -71,8 +71,9 @@ class HousingData:
         return h
     #method that looks at a housing object and decides if it should be included in state data
     def sort_state(self, z):
-            #looks for state in level,  traditional in type, for years greater than 2014
-            if z.level == 'State' and z.hpi_type == 'traditional' and z.year > 2014:
+            #looks for state in level,  traditional in type, for years greater than 2014,
+            #and hpi_flavor is all-transactions
+            if z.level == 'State' and z.hpi_type == 'traditional' and z.year > 2014 and z.hpi_flavor == 'all-transactions':
                 return True
             else:
                 return False
@@ -80,7 +81,7 @@ class HousingData:
     #in the metro data
     def sort_metro(self, z):
         #looks for Metro Statistical Area in level, all-transactions flavor,
-        #and years greater than 2014
+        #and years greater than 2018
         if z.level == 'MSA'and z.hpi_flavor == 'all-transactions' and z.year >2014:
             return True
         #looks for non-metro in type, state in level, and year greater than 2014
@@ -88,6 +89,7 @@ class HousingData:
             return True
         else:
             return False
+
     #method for writing state data out to a .csv file
     def state_out(self):
         s= self.state_data
@@ -112,7 +114,7 @@ class HousingData:
                 r = [a.hpi_type, a.hpi_flavor, a.level, a.place_name, a.place_id, a.year, a.period, a.index_nsa]
                 writer.writerow(r)
                 logger.debug('Record for %s saved to metro data file.' %repr(a))
-            logger.info('Saved state data to metro_housing_data.csv.')
+            logger.info('Saved metro and non-metro state data to metro_housing_data.csv.')
     #method to load state data from FHFA HSI master csv file
     def _load_data(self):
         #instantiate an empty file for the sate housing data
@@ -125,10 +127,7 @@ class HousingData:
             logger.info('Data file found in directory')
         #if the file is absent
         else:
-            logger.info('Data file not found in working directory')
-            #the program calls the get data method to download it.
-            #self._get_data()
-            #logger.info('Data file downloaded and saved in working directory')
+            logger.error('Data file not found in working directory')
         #opens the file
         with open(raw_file) as file:
             logger.debug('Housing data file opened')
@@ -150,37 +149,54 @@ class HousingData:
                     logger.debug('added record for %s to HousingData metro_data' %repr(z))
             logger.debug('Finished reading data file')
             return (state_data, metro_data)
+def yoy_change(list, year):
+    year_data=[]
+    prev_year_data=[]
+    for geo in list:
+        l = [geo.place_name, geo.place_id, geo.year, geo.period, geo.index_nsa]
+        if geo.year == year:
+            year_data.append(l)
+        if geo.year == year - 1:
+            prev_year_data.append(l)
+    yoy_change = []
+    for i in year_data:
+        for j in prev_year_data:
+            if i[0]==j[0] and i[1]==j[1] and i[3]==j[3]:
+                d = i[4]-j[4]
+                p = d/j[4]*100
+                i.append(d)
+                i.append(p)
+                yoy_change.append(i)
+    return yoy_change
 def main():
+    #instantiate argparse object
     parser = argparse.ArgumentParser(description = \
-    'Accept optional sorting arguments')
+    'Accept optional argument --plot')
     logger.debug('Parser started')
-    #add print command
-    #parser.add_argument('command', metavar='<command>', type = str,\
-    #help = 'command to execute', choices = ['print', 'mpg_by_make', 'mpg_by_year'])
-    #logger.debug('Listening for command')
-    #add optional sorting argument with set choices
-    parser.add_argument('--reload', '-r', action = 'store_true', default = False)
-    logger.debug('Listening for reload options')
-    #add optional argument for filename
-    #parser.add_argument('--ofile', '-o', metavar = '<outfile>', type = str)
-    #logger.debug('Listening for output file options')
+    #add reload optional argument
+    #parser.add_argument('--reload', '-r', action = 'store_true', default = False)
+    #logger.debug('Listening for reload options')
     #add optional argurment for plots
     parser.add_argument('--plot', '-p', choices = ['hist', 'trend', 'all'])
     logger.debug('Listening for plot option')
     #save the parsed arguements
     args = parser.parse_args()
     #log that we parsed the arguements
-    #logger.info('Parsed command line arguments sort by %s and  %s' %(args.sort, args.command))
-    if args.reload == True or os.path.isfile('metro_housing_data.csv')==False or os.path.isfile('state_housing_data.csv')==False:
-        try:
-            o = HousingData()
-            logger.info('HousingData object successfully created.')
-        except Exception as e:
-            logger.error('An exception occured while trying to create a HousingData object.')
-        o.state_out()
-        o.metro_out()
-    else:
-        logging.debug('The data subset files already exist.')
-    logging.debug('End of main function! Your program ran to completion.')
+    logger.info('Parsed command line arguments')
+
+    try:
+        o = HousingData()
+        logger.info('HousingData object successfully created.')
+    except Exception as e:
+        logger.error('An exception occured while trying to create a HousingData object.')
+    try:
+        state_change = yoy_change(o.state_data, 2020)
+        logger.info('State year over year change recorded')
+    except Exception as e:
+        logger.error('An exception occured while trying to find the year over year change.')
+    try:
+        msa_cange = yoy_change(o.metro_data, 2020)
+        logger.info('Metro area year over year change recorded')
+    logger.debug('End of main function! Your program ran to completion.')
 if __name__ == '__main__':
     main()
