@@ -111,3 +111,18 @@ class TestProcessors(unittest.TestCase):
         for test_data in test_dataset:
             covid_fips_id = processors.covid_fips(test_data.fips)
             self.assertEqual(test_data.expected_value, covid_fips_id)
+
+    def test_split_covid_fips(self):
+        test_file = "../data/test/covid_column_split_data.csv"
+        expected_state_id = 33
+        expected_county_id = 1
+        test_df = processors.load_data(test_file)
+        result_df = processors.split_covid_fips_into_cbsa_values(test_df)
+        self.assertIsNotNone(result_df["state_id"])
+        self.assertIsNotNone(result_df["county_id"])
+        for value in result_df["state_id"]:
+            self.assertEqual(expected_state_id, value)
+        for value in result_df["county_id"]:
+            self.assertEqual(expected_county_id, value)
+
+

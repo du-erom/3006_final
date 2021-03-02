@@ -39,6 +39,7 @@ class FipsData:
     def __repr__(self):
         return self.__str__()
 
+
 def load_data(data_file):
     """
     Load us-counties.csv data into a pandas data frame
@@ -117,6 +118,21 @@ def aggregate_covid_cases_by_group(fips_list, group_by_columns, df):
         agg_result = query_result.groupby(group_by_columns, as_index=False).agg({"cases": ["sum", "mean", "min", "max"]})
         agg_result.columns.droplevel(0)
         return agg_result
+    else:
+        logging.error("dataframe not supported for this query")
+        raise ValueError("cases not in the dataframe")
+
+
+def split_covid_fips_into_cbsa_values(df):
+    """
+    inplace split the covid fips value into cbsa state and county id columns
+    """
+    if "cases" in df:
+        df["state_id"] = df["fips"] / 1000
+        df["state_id"] = df["state_id"].fillna(0).astype(int)
+        df["county_id"] = df["fips"] - df["state_id"]*1000
+        df["county_id"] = df["county_id"].fillna(0).astype(int)
+        return df
     else:
         logging.error("dataframe not supported for this query")
         raise ValueError("cases not in the dataframe")
