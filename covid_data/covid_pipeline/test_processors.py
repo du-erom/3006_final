@@ -95,7 +95,7 @@ class TestProcessors(unittest.TestCase):
         test_df = processors.load_data(test_file)
         for index, test_data in enumerate(test_dataset):
             with self.subTest(f"test index {index}"):
-                result_df = processors.group_covid_by_fips(test_data.fips_selector, test_df)
+                result_df = processors.aggregate_covid_cases_by_group(test_data.fips_selector, ["date"], test_df)
                 self.assertEqual(len(test_data.expected_series), len(result_df))
                 for expected_records in test_data.expected_series:
                     result = result_df[result_df["date"] == expected_records.date]

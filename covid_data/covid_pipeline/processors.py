@@ -98,7 +98,31 @@ def population_by_fips(fips_list, df):
         raise ValueError("SUMLEV not in the dataframe")
 
 
-def group_covid_by_fips(fips_list, df):
+def aggregate_covid_cases_by_group(fips_list, group_by_columns, df):
+    """
+    Aggregate the covid data by the specified FIPS identifiers and grouped by the specified grouping columns.
+    :param fips_list: FipsData list
+    :param group_by_columns list of column names
+    :param df: the census dataframe
+    :return:
+    DataFrame with schema consisting of the grouping column names, and multilevel columns of cases,sum
+    cases,mean cases,min cases,max
+    eg.
+    date fips cases
+    """
+    if "cases" in df:
+        query_fips = list(map(covid_fips, fips_list))
+        logging.debug("querying over covid_ips ids: %s", query_fips)
+        query_result = df[df["fips"].isin(query_fips)]
+        agg_result = query_result.groupby(group_by_columns, as_index=False).agg({"cases": ["sum", "mean", "min", "max"]})
+        agg_result.columns.droplevel(0)
+        return agg_result
+    else:
+        logging.error("dataframe not supported for this query")
+        raise ValueError("cases not in the dataframe")
+
+
+def filter_by_fips(fips_list, df):
     """
     Group the covid data by the specified FIPS identifiers per day.
     :param fips_list: FipsData list
@@ -110,7 +134,7 @@ def group_covid_by_fips(fips_list, df):
         query_fips = list(map(covid_fips, fips_list))
         logging.debug("querying over covid_ips ids: %s", query_fips)
         query_result = df[df["fips"].isin(query_fips)]
-        return query_result.groupby(["date"], as_index=False).sum()
+        return query_result
     else:
         logging.error("dataframe not supported for this query")
         raise ValueError("cases not in the dataframe")
@@ -124,6 +148,7 @@ def append_difference(diff_field_name, source_field, sort_fields, df):
     N/A set for difference when row is the first row for the sort fields.
     """
     return df
+
 
 def covid_fips(fips_data):
     """

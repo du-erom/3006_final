@@ -49,9 +49,7 @@ Source: census_population_only_estimates_2019.csv
 |index|Column|Non-Null|Type|Description|
 |---|---|---|---|---|
 |0|date|Yes|object|YYYY-MM-DD|
-|1|state_code|Yes|int64|FIPS State Code|
-|2|count_code|Yes|int64|FIPS Count Code|
-|3|num_records|Yes|int64|Number of records|
+|1|cases,sum|Yes|int64|sum of counts
 |4|min_new_cases|Yes|int64|Min Number of new cases across the fips code for that day|
 |5|max_new_cases|Yes|int64|Max Number of new cases across the fips code for that day|
 |6|mean_new_cases|Yes|float64|Mean number of new cases across the fips code for that day|
