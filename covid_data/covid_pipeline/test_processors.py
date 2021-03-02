@@ -17,6 +17,7 @@ stdout_handler.setLevel(logging.DEBUG)
 stdout_handler.setFormatter(formatter)
 root_logger.addHandler(stdout_handler)
 
+
 class TestProcessors(unittest.TestCase):
 
     def test_census_cbsa_selection(self):
@@ -66,7 +67,7 @@ class TestProcessors(unittest.TestCase):
                 result = processors.population_by_fips(test_data.fips_selectors, test_df)
                 self.assertEqual(test_data.expected_population, result)
 
-    def test_group_covid_by_fips(self):
+    def test_aggregation_group_by_date(self):
         test_file = "../data/test/us-counties-nh.csv"
         TestCovidData = namedtuple("CovidData", ["date", "total_cases"])
         TestData = namedtuple("TestData", ["fips_selector", "expected_series"])

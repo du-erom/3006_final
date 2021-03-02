@@ -31,7 +31,7 @@ def main():
     covid_df = cdp.load_data(COUNTIES_SOURCE_DATA)
     covid_df.info(verbose=True)
     logging.info(covid_df.head(5))
-    covid_data = cdp.aggregate_covid_cases_by_group(fips, covid_df)
+    covid_data = cdp.aggregate_covid_cases_by_group(fips, ["date"], covid_df)
     covid_data.info(verbose=True)
     logging.info(covid_data.head(5))
     covid_data["dCases"] = covid_data["cases", "sum"] - covid_data["cases","sum"].shift(1)
