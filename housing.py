@@ -193,6 +193,26 @@ def main():
     logger.info('State year over year change recorded')
     msa_cange = yoy_change(o.metro_data, 2020)
     logger.info('Metro area year over year change recorded')
+    file = 'state_fips_codes.txt'
+    dic={}
+    with open(file) as f:
+        reader = csv.reader(f, delimiter = "|")
+        next(reader, None)
+        for line in reader:
+            key = line[1]
+            value = line[0]
+            dic[key] = int(value)
+        for record in state_change:
+            st = record[1]
+            a = dic.get(st)
+            record[1]=a
+    ofile = 'state_year_over_year_change.csv'
+    header = ['Place Name', 'Place ID', 'Year', 'Quarter', 'HPI', 'YoY change', '% YoY change']
+    with open(ofile, 'w', newline ='') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        for line in state_change:
+            writer.writerow(line)
     logger.debug('End of main function! Your program ran to completion.')
 if __name__ == '__main__':
     main()
