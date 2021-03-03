@@ -26,20 +26,49 @@ def main():
         by_state_df = cdp.load_data("covid_by_state_year_month.csv")
     else:
         by_state_df = step2_aggregate_by_state(covid_df)
+    house_year_over_year_df = cdp.load_data("../../state_year_over_year_change.csv")
     quarters = [[1,2,3],[4,5,6],[7,8,9],[10,11,12]]
     for q_number, months in enumerate(quarters):
-        logging.info("months : %s", months)
-        quarter_selection = by_state_df[(by_state_df["year"] == 2020) & (by_state_df["month"].isin(months))]
-        new_cases_agg = cdp.aggregate_covid_cases_by_group(None, ["state_id"], quarter_selection, "new_cases_total")
-        logging.info(new_cases_agg.head(100))
+        house_year_over_year_by_quarter_df = house_year_over_year_df[house_year_over_year_df["Quarter"] == q_number+1]
+        quarter_selection_df = by_state_df[(by_state_df["year"] == 2020) & (by_state_df["month"].isin(months))]
+        covid_quarter_agg_df = cdp.aggregate_covid_cases_by_group(None, ["state_id"], quarter_selection_df, "new_cases_total")
+        sorted_housing_df = house_year_over_year_by_quarter_df.sort_values(by=["Place ID"])
+        house_place_ids = sorted_housing_df["Place ID"]
+        logging.info(sorted_housing_df.head(50))
+        sorted_covid_df = covid_quarter_agg_df.sort_values(by=["state_id"])
+        sorted_covid_df["log_new_cases"] = np.log10(sorted_covid_df["new_cases_total","sum"])
+        sorted_covid_df = sorted_covid_df[sorted_covid_df["state_id"].isin(house_place_ids)]
+        logging.info(sorted_covid_df.info(verbose=True))
+        logging.info(sorted_covid_df.head(50))
         plt.figure(1)
-        plt.bar(new_cases_agg["state_id"], new_cases_agg["new_cases_total", "sum"])
-        plt.yscale("log")
-        plt.title(f"Q{q_number+1} 2020 : New Cases")
-        plt.xlabel("state id")
-        plt.ylabel("new cases")
-        plt.savefig(f"q{q_number+1}_new_cases.png")
+        plt.scatter(sorted_covid_df["log_new_cases"], sorted_housing_df["YoY change"])
+        plt.xlabel("Log10 Total New Cases")
+        plt.ylabel("HPI Year of Year Change")
+        plt.title(f"2020 Q{q_number+1} : Covid New Cases vs HPI Yearly Change")
+        plt.savefig(f"q_{q_number+1}_covid_vs_hpi.png")
         plt.show()
+        plt.figure(1)
+        plt.scatter(sorted_covid_df["log_new_cases"], sorted_housing_df["% YoY change"])
+        plt.xlabel("Log10 Total New Cases")
+        plt.ylabel("HPI Year of Year Change")
+        plt.title(f"2020 Q{q_number+1} : Covid New Cases vs HPI % Yearly Change")
+        plt.savefig(f"q_{q_number+1}_covid_vs_hpi_percent.png")
+        plt.show()
+
+
+
+#        logging.info("months : %s", months)
+#        quarter_selection = by_state_df[(by_state_df["year"] == 2020) & (by_state_df["month"].isin(months))]
+#        new_cases_agg = cdp.aggregate_covid_cases_by_group(None, ["state_id"], quarter_selection, "new_cases_total")
+#        logging.info(new_cases_agg.head(100))
+#        plt.figure(1)
+#        plt.bar(new_cases_agg["state_id"], new_cases_agg["new_cases_total", "sum"])
+#        plt.yscale("log")
+#        plt.title(f"Q{q_number+1} 2020 : New Cases")
+#        plt.xlabel("state id")
+#        plt.ylabel("new cases")
+#        plt.savefig(f"q{q_number+1}_new_cases.png")
+#        plt.show()
 
 
 
