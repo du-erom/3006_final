@@ -1,58 +1,68 @@
 import unittest
 import housing
+import csv
 
 class TestHousing(unittest.TestCase):
     '''Test housing Housing class methods'''
     def test_Housing_init(self):
-        a = housing.Housing('traditional', 'all-transactions','State', 'Delaware', 'DE', 2020, 2, 491.63, 0)
+        a = housing.Housing('traditional', 'all-transactions','State', 'Delaware', 10, 2020, 2, 491.63, 0)
         self.assertEqual(a.hpi_type, 'traditional')
         self.assertEqual(a.hpi_flavor, 'all-transactions')
         self.assertEqual(a.level, 'State')
         self.assertEqual(a.place_name, 'Delaware')
-        self.assertEqual(a.place_id, 'DE')
+        self.assertEqual(a.place_id, 10)
         self.assertEqual(a.year, 2020)
         self.assertEqual(a.period, 2)
         self.assertEqual(a.index_nsa, 491.63)
     def test_Housing_repr(self):
-        a = housing.Housing('traditional', 'all-transactions','State', 'Delaware', 'DE', 2020, 2, 491.63, 0)
+        a = housing.Housing('traditional', 'all-transactions','State', 'Delaware', 10, 2020, 2, 491.63, 0)
         self.assertEqual(repr(a), \
-        'Housing (traditional, all-transactions, State, Delaware, DE, 2020, 2, 491.630000)')
+        'Housing (traditional, all-transactions, State, Delaware, 10, 2020, 2, 491.630000)')
 class TestHousingData(unittest.TestCase):
     '''Test housing HousingData class methods'''
     def test_parse_line(self):
+        dict ={}
+        dict_file = 'state_fips_codes.txt'
+        with open(dict_file) as f:
+            reader = csv.reader(f, delimiter ='|')
+            next(reader, None)
+            for line in reader:
+                key = line[1]
+                value = line[0]
+                dict[str(key)] = int(value)
         l = ['traditional', 'all-transactions','Quarterly','State', 'Delaware', 'DE', 2020, 2, 491.63, 0]
         h = housing.HousingData
-        a = h.parse_line(h, l)
+        a = h.parse_line(h, l, dict)
         self.assertEqual(a.hpi_type, 'traditional')
         self.assertEqual(a.hpi_flavor, 'all-transactions')
         self.assertEqual(a.level, 'State')
         self.assertEqual(a.place_name, 'Delaware')
-        self.assertEqual(a.place_id, 'DE')
+        self.assertEqual(a.place_id, 10)
         self.assertEqual(a.year, 2020)
         self.assertEqual(a.period, 2)
         self.assertEqual(a.index_nsa, 491.63)
     def test_sort_state_true(self):
-        c = housing.Housing('traditional', 'all-transactions','State', 'Delaware', 'DE', 2020, 2, 491.63, 0)
+        c = housing.Housing('traditional', 'all-transactions','State', 'Delaware', 10, 2020, 2, 491.63, 0)
         h = housing.HousingData
         a = h.sort_state(h, c)
         self.assertTrue(a)
     def test_sort_state_metro(self):
-        c = housing.Housing('traditional', 'all-transactions','MSA', 'Delaware', 'DE', 2020, 2, 491.63, 0)
+        c = housing.Housing('traditional', 'all-transactions','MSA', 'Delaware', 10, 2020, 2, 491.63, 0)
         h = housing.HousingData
         a = h.sort_state(h, c)
         self.assertFalse(a)
     def test_sort_state_type(self):
-        c = housing.Housing('non-metro', 'all-transactions','State', 'Delaware', 'DE', 2020, 2, 491.63, 0)
+        c = housing.Housing('non-metro', 'all-transactions','State', 'Delaware', 10, 2020, 2, 491.63, 0)
         h = housing.HousingData
         a = h.sort_state(h, c)
         self.assertFalse(a)
     def test_sort_state_year(self):
-        c = housing.Housing('traditional', 'all-transactions','State', 'Delaware', 'DE', 2012, 2, 491.63, 0)
+        c = housing.Housing('traditional', 'all-transactions','State', 'Delaware', 10, 2012, 2, 491.63, 0)
         h = housing.HousingData
         a = h.sort_state(h, c)
         self.assertFalse(a)
     def test_sort_state_flavor(self):
-        c = housing.Housing('traditional', 'purchase-only','State', 'Delaware', 'DE', 2012, 2, 491.63, 0)
+        c = housing.Housing('traditional', 'purchase-only','State', 'Delaware', 10, 2012, 2, 491.63, 0)
         h = housing.HousingData
         a = h.sort_state(h, c)
         self.assertFalse(a)
@@ -72,21 +82,22 @@ class TestHousingData(unittest.TestCase):
         a = h.sort_metro(h, c)
         self.assertFalse(a)
     def test_sort_non_metro_true(self):
-        c = housing.Housing('non-metro', 'all-transactions', 'State','Alaska', 'AK', 2019, 4, 224.85,0)
+        c = housing.Housing('non-metro', 'all-transactions', 'State','Alaska', 2, 2019, 4, 224.85,0)
         h=housing.HousingData
         a = h.sort_metro(h, c)
         self.assertTrue(a)
     def test_sort_non_metro_year(self):
-        c = housing.Housing('non-metro', 'all-transactions', 'State','Alaska', 'AK', 2010, 4, 224.85,0)
+        c = housing.Housing('non-metro', 'all-transactions', 'State','Alaska', 2, 2010, 4, 224.85,0)
         h=housing.HousingData
         a = h.sort_metro(h, c)
         self.assertFalse(a)
 class TestFunctions(unittest.TestCase):
     def test_yoy_change(self):
-        a = housing.Housing('non-metro', 'all-transactions', 'State','New Hampshire', 'NH', 2019, 4, 100,0)
-        b =  housing.Housing('non-metro', 'all-transactions', 'State','New Hampshire', 'NH', 2020, 4, 105,0)
+        a = housing.Housing('non-metro', 'all-transactions', 'State','New Hampshire', 33, 2019, 4, 100,0)
+        b =  housing.Housing('non-metro', 'all-transactions', 'State','New Hampshire', 33, 2020, 4, 105,0)
         l = [a, b]
         r = housing.yoy_change(l, 2020)
-        self.assertEqual(r, [['New Hampshire', 'NH', 2020, 4, 105.0, 5.0, 5.0]])
+        self.assertEqual(r, [['New Hampshire', 33, 2020, 4, 105.0, 5.0, 5.0]])
+
 if __name__ == '__main__':
     unittest.main()
