@@ -41,7 +41,7 @@ class Housing:
         logger.debug('Housing object created for %s, Q%d %d' %(self.place_name, \
         self.period, self.year))
     def __repr__(self):
-        return('Housing (%s, %s, %s, %s, %d, %d, %d, %2f)' \
+        return('Housing (%s, %s, %s, %s, %s, %d, %d, %2f)' \
         %(self.hpi_type, self.hpi_flavor, self.level, self.place_name, self.place_id, \
         self.year, self.period, self.index_nsa))
         logger.debug('repr called for Housing object')
@@ -60,21 +60,14 @@ class HousingData:
     def __iter__(self):
         iter([list(self.state_data), list(self.metro_data)])
     #method to parse lines from the csv data into Housing objects
-    def parse_line(self, line, dict):
+    def parse_line(self, line):
         #define the named tuple Record
         Record = namedtuple('Record', 'hpi_type hpi_flavor frequency level place_name place_id year period index_nsa index_sa')
-        #if level is state, set the place id with the Dictionary
-        if line[3]=='State':
-            c = Record(line[0], line[1], line[2], line[3], line[4], dict.get(line[5]), line[6], line[7], line[8], line[9])
-        else:
-            #instantiate a record object with the data from the csv file
-            c = Record(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9])
-        if c.level == 'State' or c.level=='MSA':
-            #records csv data into Housing data object
-            h = Housing(c.hpi_type, c.hpi_flavor, c.level, c.place_name, c.place_id, c.year, c.period, c.index_nsa, c.index_sa)
-            logger.debug('Housing obeject created for %s' %repr(h))
-        else:
-            h=None
+        #instantiate a record object with the data from the csv file
+        c = Record(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9])
+        #records csv data into Housing data object
+        h = Housing(c.hpi_type, c.hpi_flavor, c.level, c.place_name, c.place_id, c.year, c.period, c.index_nsa, c.index_sa)
+        logger.debug('Housing obeject created for %s' %repr(h))
         return h
     #method that looks at a housing object and decides if it should be included in state data
     def sort_state(self, z):
@@ -124,16 +117,6 @@ class HousingData:
             logger.info('Saved metro and non-metro state data to metro_housing_data.csv.')
     #method to load state data from FHFA HSI master csv file
     def _load_data(self):
-        dict ={}
-        dict_file = 'state_fips_codes.txt'
-        with open(dict_file) as f:
-            logger.debug('Dictionary file opened')
-            reader = csv.reader(f, delimiter ='|')
-            next(reader, None)
-            for line in reader:
-                key = line[1]
-                value = line[0]
-                dict[str(key)] = int(value)
         #instantiate an empty file for the sate housing data
         state_data= []
         metro_data= []
@@ -156,7 +139,7 @@ class HousingData:
             #iterates through the lines of the file
             for line in reader:
                 #calls the parse line method to parse the line and create a Housing object
-                z = self.parse_line(line, dict)
+                z = self.parse_line(line)
                 #checks object level and hpi_type, to select only whole state data
                 if self.sort_state(z) == True:
                     state_data.append(z)
@@ -206,16 +189,10 @@ def main():
         logger.info('HousingData object successfully created.')
     except Exception as e:
         logger.error('An exception occured while trying to create a HousingData object.')
-    try:
-        state_change = yoy_change(o.state_data, 2020)
-        logger.info('State year over year change recorded')
-    except Exception as e:
-        logger.error('An exception occured while trying to find the year over year change.')
-    try:
-        msa_cange = yoy_change(o.metro_data, 2020)
-        logger.info('Metro area year over year change recorded.')
-    except Exception as e:
-        logger.error('An exception occured while trying to find the year over year change.')
+    state_change = yoy_change(o.state_data, 2020)
+    logger.info('State year over year change recorded')
+    msa_cange = yoy_change(o.metro_data, 2020)
+    logger.info('Metro area year over year change recorded')
     logger.debug('End of main function! Your program ran to completion.')
 if __name__ == '__main__':
     main()
