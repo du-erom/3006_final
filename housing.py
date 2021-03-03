@@ -183,16 +183,19 @@ def main():
     args = parser.parse_args()
     #log that we parsed the arguements
     logger.info('Parsed command line arguments')
-
+    #create the housing data object
     try:
         o = HousingData()
         logger.info('HousingData object successfully created.')
     except Exception as e:
         logger.error('An exception occured while trying to create a HousingData object.')
+    #calculate 2020 year over year change in HPI on state level
     state_change = yoy_change(o.state_data, 2020)
     logger.info('State year over year change recorded')
-    msa_cange = yoy_change(o.metro_data, 2020)
+    #calculate 2020 year over year change in HPI on metro level
+    msa_change = yoy_change(o.metro_data, 2020)
     logger.info('Metro area year over year change recorded')
+    #create a dictionary to switch postal abbreviations to fips codes
     file = 'state_fips_codes.txt'
     dic={}
     with open(file) as f:
@@ -202,16 +205,31 @@ def main():
             key = line[1]
             value = line[0]
             dic[key] = int(value)
-        for record in state_change:
-            st = record[1]
-            a = dic.get(st)
-            record[1]=a
+    #apply dictionary to state data
+    for record in state_change:
+        st = record[1]
+        a = dic.get(st)
+        record[1]=a
+    #write state data to file
     ofile = 'state_year_over_year_change.csv'
     header = ['Place Name', 'Place ID', 'Year', 'Quarter', 'HPI', 'YoY change', '% YoY change']
     with open(ofile, 'w', newline ='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         for line in state_change:
+            writer.writerow(line)
+    #apply dictionary to non-metro state data:
+    for record in msa_change:
+        if len(record[1])==2:
+            st = record[1]
+            a = dic.get(st)
+            record[1]=a
+    #write metro level data to file
+    oufile = 'metro_year_over_year_change.csv'
+    with open(oufile, 'w', newline ='') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        for line in msa_change:
             writer.writerow(line)
     logger.debug('End of main function! Your program ran to completion.')
 if __name__ == '__main__':
