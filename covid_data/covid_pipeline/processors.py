@@ -40,6 +40,20 @@ class FipsData:
         return self.__str__()
 
 
+def get_year(row):
+    value = row[0].split("-")[0]
+    return value
+
+
+def get_month(row):
+    value = row[0].split("-")[1]
+    return value
+
+def get_day_of_month(row):
+    value = row[0].split("-")[2]
+    return value
+
+
 def load_data(data_file):
     """
     Load us-counties.csv data into a pandas data frame
@@ -99,7 +113,7 @@ def population_by_fips(fips_list, df):
         raise ValueError("SUMLEV not in the dataframe")
 
 
-def aggregate_covid_cases_by_group(fips_list, group_by_columns, df):
+def aggregate_covid_cases_by_group(fips_list, group_by_columns, df, aggregate_field="cases"):
     """
     Aggregate the covid data by the specified FIPS identifiers and grouped by the specified grouping columns.
     :param fips_list: FipsData list
@@ -112,10 +126,13 @@ def aggregate_covid_cases_by_group(fips_list, group_by_columns, df):
     date fips cases
     """
     if "cases" in df:
-        query_fips = list(map(covid_fips, fips_list))
-        logging.debug("querying over covid_ips ids: %s", query_fips)
-        query_result = df[df["fips"].isin(query_fips)]
-        agg_result = query_result.groupby(group_by_columns, as_index=False).agg({"cases": ["sum", "mean", "min", "max"]})
+        if fips_list is not None:
+            query_fips = list(map(covid_fips, fips_list))
+            logging.debug("querying over covid_ips ids: %s", query_fips)
+            query_result = df[df["fips"].isin(query_fips)]
+        else:
+            query_result = df
+        agg_result = query_result.groupby(group_by_columns, as_index=False).agg({aggregate_field: ["sum", "mean", "min", "max"]})
         agg_result.columns.droplevel(0)
         return agg_result
     else:
@@ -132,6 +149,12 @@ def split_covid_fips_into_cbsa_values(df):
         df["state_id"] = df["state_id"].fillna(0).astype(int)
         df["county_id"] = df["fips"] - df["state_id"]*1000
         df["county_id"] = df["county_id"].fillna(0).astype(int)
+        df["year"] = df.fillna("1970-01-01").apply(get_year, axis=1)
+        df["year"] = df["year"].astype(int)
+        df["month"] = df.fillna("1970-01-01").apply(get_month, axis=1)
+        df["month"] = df["month"].astype(int)
+        df["day_of_month"] = df.fillna("1970-01-01").apply(get_day_of_month, axis=1)
+        df["day_of_month"] = df["day_of_month"].astype(int)
         return df
     else:
         logging.error("dataframe not supported for this query")
