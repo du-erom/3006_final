@@ -189,12 +189,15 @@ def main():
         logger.info('HousingData object successfully created.')
     except Exception as e:
         logger.error('An exception occured while trying to create a HousingData object.')
-    #calculate 2020 year over year change in HPI on state level
-    state_change = yoy_change(o.state_data, 2020)
-    logger.info('State year over year change recorded')
-    #calculate 2020 year over year change in HPI on metro level
-    msa_change = yoy_change(o.metro_data, 2020)
-    logger.info('Metro area year over year change recorded')
+    #define years we want to calculate year over year details
+    years = [2016,2017,2018,2019,2020]
+    for year in years:
+        #calculate year over year change in HPI on state level
+        state_change = yoy_change(o.state_data, year)
+        logger.info('State year over year change recorded')
+        #calculate  year over year change in HPI on metro level
+        msa_change = yoy_change(o.metro_data, year)
+        logger.info('Metro area year over year change recorded')
     #create a dictionary to switch postal abbreviations to fips codes
     file = 'state_fips_codes.txt'
     dic={}
@@ -205,14 +208,17 @@ def main():
             key = line[1]
             value = line[0]
             dic[key] = int(value)
-    #apply dictionary to state data
+
+    #apply dictionary to state data and add a decimal q
     for record in state_change:
         st = record[1]
         a = dic.get(st)
         record[1]=a
+        yq = record[2]+0.25*(record[3]-1)
+        record.append(yq)
     #write state data to file
     ofile = 'state_year_over_year_change.csv'
-    header = ['Place Name', 'Place ID', 'Year', 'Quarter', 'HPI', 'YoY change', '% YoY change']
+    header = ['Place Name', 'Place ID', 'Year', 'Quarter', 'HPI', 'YoY change', '% YoY change', 'year w/ dec. quarter']
     with open(ofile, 'w', newline ='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
@@ -220,6 +226,8 @@ def main():
             writer.writerow(line)
     #apply dictionary to non-metro state data:
     for record in msa_change:
+        yq = record[2]+0.25*(record[3]-1)
+        record.append(yq)
         if len(record[1])==2:
             st = record[1]
             a = dic.get(st)
