@@ -67,7 +67,7 @@ class HousingData:
         c = Record(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9])
         #records csv data into Housing data object
         h = Housing(c.hpi_type, c.hpi_flavor, c.level, c.place_name, c.place_id, c.year, c.period, c.index_nsa, c.index_sa)
-        logger.debug('Housing obeject created for %s' %repr(h))
+        logger.debug('Housing object created for %s' %repr(h))
         return h
     #method that looks at a housing object and decides if it should be included in state data
     def sort_state(self, z):
@@ -200,12 +200,9 @@ def main():
     parser = argparse.ArgumentParser(description = \
     'Accept optional argument --plot')
     logger.debug('Parser started')
-    #add reload optional argument
-    #parser.add_argument('--reload', '-r', action = 'store_true', default = False)
-    #logger.debug('Listening for reload options')
-    #add optional argurment for plots
-    parser.add_argument('--plot', '-p', choices = ['hist', 'trend', 'all'])
-    logger.debug('Listening for plot option')
+    #add optional argurment for year
+    parser.add_argument('--year', '-y', choices = ['2016', '2017', '2018', '2019', '2020'])
+    logger.debug('Listening for year option')
     #save the parsed arguements
     args = parser.parse_args()
     #log that we parsed the arguements
@@ -216,14 +213,18 @@ def main():
         logger.info('HousingData object successfully created.')
     except Exception as e:
         logger.error('An exception occured while trying to create a HousingData object.')
-    #calculate 2020 year over year change in HPI on state level
-    state_change = yoy_change(o.state_data, 2020)
+    if args.year != None:
+        year = int(args.year)
+    else:
+        year = 2020
+    #calculate year over year change in HPI on state level
+    state_change = yoy_change(o.state_data, year)
     logger.info('State year over year change recorded')
-    #calculate 2020 year over year change in HPI on metro level
-    msa_change = yoy_change(o.metro_data, 2020)
+    #calculate year over year change in HPI on metro level
+    msa_change = yoy_change(o.metro_data, year)
     logger.info('Metro area year over year change recorded')
     #write state data to file
-    ofile = 'state_year_over_year_change.csv'
+    ofile = 'state_year_over_year_change %d.csv' %year
     header = ['Place Name', 'Place ID', 'Year', 'Quarter', 'HPI', 'YoY change', '% YoY change', 'year dec. quarter']
     with open(ofile, 'w', newline ='') as f:
         writer = csv.writer(f)
@@ -231,7 +232,7 @@ def main():
         for line in state_change:
             writer.writerow(line)
     #write metro level data to file
-    oufile = 'metro_year_over_year_change.csv'
+    oufile = 'metro_year_over_year_change %d.csv' %year
     with open(oufile, 'w', newline ='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
