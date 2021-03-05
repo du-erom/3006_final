@@ -1,0 +1,271 @@
+date,county,state,fips,cases,deaths
+2020-06-01,Alameda,California,6001,3491,104
+2020-06-01,Contra Costa,California,6013,1468,38
+2020-06-01,Fresno,California,6019,1882,36
+2020-06-01,Imperial,California,6025,2197,28
+2020-06-01,Kern,California,6029,2332,38
+2020-06-01,Los Angeles,California,6037,55968,2384
+2020-06-01,Riverside,California,6065,7982,344
+2020-06-01,San Diego,California,6073,7617,312
+2020-06-01,San Francisco,California,6075,2573,43
+2020-06-02,Alameda,California,6001,3536,104
+2020-06-02,Contra Costa,California,6013,1506,38
+2020-06-02,Fresno,California,6019,1914,37
+2020-06-02,Imperial,California,6025,2366,28
+2020-06-02,Kern,California,6029,2386,39
+2020-06-02,Los Angeles,California,6037,57118,2443
+2020-06-02,Riverside,California,6065,8155,344
+2020-06-02,San Diego,California,6073,7737,312
+2020-06-02,San Francisco,California,6075,2590,43
+2020-06-03,Alameda,California,6001,3569,104
+2020-06-03,Contra Costa,California,6013,1513,38
+2020-06-03,Fresno,California,6019,1944,37
+2020-06-03,Imperial,California,6025,2459,28
+2020-06-03,Kern,California,6029,2428,40
+2020-06-03,Los Angeles,California,6037,58234,2489
+2020-06-03,Riverside,California,6065,8303,345
+2020-06-03,San Diego,California,6073,7861,312
+2020-06-03,San Francisco,California,6075,2616,43
+2020-06-04,Alameda,California,6001,3662,104
+2020-06-04,Contra Costa,California,6013,1547,38
+2020-06-04,Fresno,California,6019,2014,40
+2020-06-04,Imperial,California,6025,2540,28
+2020-06-04,Kern,California,6029,2472,45
+2020-06-04,Los Angeles,California,6037,59650,2531
+2020-06-04,Riverside,California,6065,8303,345
+2020-06-04,San Diego,California,6073,8003,312
+2020-06-04,San Francisco,California,6075,2647,43
+2020-06-05,Alameda,California,6001,3746,104
+2020-06-05,Contra Costa,California,6013,1577,38
+2020-06-05,Fresno,California,6019,2080,43
+2020-06-05,Imperial,California,6025,2631,29
+2020-06-05,Kern,California,6029,2544,45
+2020-06-05,Los Angeles,California,6037,61045,2565
+2020-06-05,Riverside,California,6065,8777,355
+2020-06-05,San Diego,California,6073,8243,312
+2020-06-05,San Francisco,California,6075,2701,43
+2020-06-06,Alameda,California,6001,3826,104
+2020-06-06,Contra Costa,California,6013,1633,38
+2020-06-06,Fresno,California,6019,2122,43
+2020-06-06,Imperial,California,6025,2778,32
+2020-06-06,Kern,California,6029,2660,46
+2020-06-06,Los Angeles,California,6037,62338,2620
+2020-06-06,Riverside,California,6065,8777,355
+2020-06-06,San Diego,California,6073,8408,312
+2020-06-06,San Francisco,California,6075,2715,43
+2020-06-07,Alameda,California,6001,3895,104
+2020-06-07,Contra Costa,California,6013,1668,39
+2020-06-07,Fresno,California,6019,2122,43
+2020-06-07,Imperial,California,6025,3047,32
+2020-06-07,Kern,California,6029,2730,46
+2020-06-07,Los Angeles,California,6037,63844,2645
+2020-06-07,Riverside,California,6065,8935,355
+2020-06-07,San Diego,California,6073,8539,312
+2020-06-07,San Francisco,California,6075,2750,43
+2020-06-08,Alameda,California,6001,3966,104
+2020-06-08,Contra Costa,California,6013,1706,40
+2020-06-08,Fresno,California,6019,2216,46
+2020-06-08,Imperial,California,6025,3048,37
+2020-06-08,Kern,California,6029,2804,47
+2020-06-08,Los Angeles,California,6037,64644,2655
+2020-06-08,Riverside,California,6065,9206,356
+2020-06-08,San Diego,California,6073,8682,312
+2020-06-08,San Francisco,California,6075,2782,43
+2020-06-09,Alameda,California,6001,4006,110
+2020-06-09,Contra Costa,California,6013,1774,43
+2020-06-09,Fresno,California,6019,2286,48
+2020-06-09,Imperial,California,6025,3133,37
+2020-06-09,Kern,California,6029,2880,50
+2020-06-09,Los Angeles,California,6037,65822,2707
+2020-06-09,Riverside,California,6065,9590,365
+2020-06-09,San Diego,California,6073,8792,312
+2020-06-09,San Francisco,California,6075,2796,44
+2020-06-10,Alameda,California,6001,4054,110
+2020-06-10,Contra Costa,California,6013,1798,43
+2020-06-10,Fresno,California,6019,2318,49
+2020-06-10,Imperial,California,6025,3386,40
+2020-06-10,Kern,California,6029,2952,51
+2020-06-10,Los Angeles,California,6037,67064,2768
+2020-06-10,Riverside,California,6065,9911,372
+2020-06-10,San Diego,California,6073,8900,312
+2020-06-10,San Francisco,California,6075,2812,44
+2020-06-11,Alameda,California,6001,4140,110
+2020-06-11,Contra Costa,California,6013,1829,44
+2020-06-11,Fresno,California,6019,2395,51
+2020-06-11,Imperial,California,6025,3454,42
+2020-06-11,Kern,California,6029,3026,53
+2020-06-11,Los Angeles,California,6037,68875,2813
+2020-06-11,Riverside,California,6065,10240,380
+2020-06-11,San Diego,California,6073,9061,312
+2020-06-11,San Francisco,California,6075,2843,44
+2020-06-12,Alameda,California,6001,4237,110
+2020-06-12,Contra Costa,California,6013,1877,44
+2020-06-12,Fresno,California,6019,2478,52
+2020-06-12,Imperial,California,6025,3724,42
+2020-06-12,Kern,California,6029,3140,54
+2020-06-12,Los Angeles,California,6037,70476,2832
+2020-06-12,Riverside,California,6065,10490,383
+2020-06-12,San Diego,California,6073,9193,313
+2020-06-12,San Francisco,California,6075,2880,44
+2020-06-13,Alameda,California,6001,4237,110
+2020-06-13,Contra Costa,California,6013,1921,44
+2020-06-13,Fresno,California,6019,2547,52
+2020-06-13,Imperial,California,6025,4157,42
+2020-06-13,Kern,California,6029,3205,55
+2020-06-13,Los Angeles,California,6037,72023,2890
+2020-06-13,Riverside,California,6065,10616,383
+2020-06-13,San Diego,California,6073,9377,319
+2020-06-13,San Francisco,California,6075,2909,44
+2020-06-14,Alameda,California,6001,4341,112
+2020-06-14,Contra Costa,California,6013,1959,44
+2020-06-14,Fresno,California,6019,2547,52
+2020-06-14,Imperial,California,6025,4157,42
+2020-06-14,Kern,California,6029,3291,55
+2020-06-14,Los Angeles,California,6037,73018,2907
+2020-06-14,Riverside,California,6065,10931,383
+2020-06-14,San Diego,California,6073,9503,320
+2020-06-14,San Francisco,California,6075,2931,45
+2020-06-15,Alameda,California,6001,4394,112
+2020-06-15,Contra Costa,California,6013,1983,44
+2020-06-15,Fresno,California,6019,2706,55
+2020-06-15,Imperial,California,6025,4298,46
+2020-06-15,Kern,California,6029,3377,55
+2020-06-15,Los Angeles,California,6037,73791,2926
+2020-06-15,Riverside,California,6065,11285,384
+2020-06-15,San Diego,California,6073,9673,320
+2020-06-15,San Francisco,California,6075,2955,45
+2020-06-16,Alameda,California,6001,4502,112
+2020-06-16,Contra Costa,California,6013,2026,49
+2020-06-16,Fresno,California,6019,2788,57
+2020-06-16,Imperial,California,6025,4389,51
+2020-06-16,Kern,California,6029,3462,57
+2020-06-16,Los Angeles,California,6037,75084,2959
+2020-06-16,Riverside,California,6065,11694,395
+2020-06-16,San Diego,California,6073,9793,323
+2020-06-16,San Francisco,California,6075,2974,46
+2020-06-17,Alameda,California,6001,4554,116
+2020-06-17,Contra Costa,California,6013,2071,50
+2020-06-17,Fresno,California,6019,2900,61
+2020-06-17,Imperial,California,6025,4478,53
+2020-06-17,Kern,California,6029,3522,58
+2020-06-17,Los Angeles,California,6037,77189,2991
+2020-06-17,Riverside,California,6065,11951,399
+2020-06-17,San Diego,California,6073,9917,327
+2020-06-17,San Francisco,California,6075,2985,47
+2020-06-18,Alameda,California,6001,4659,117
+2020-06-18,Contra Costa,California,6013,2111,55
+2020-06-18,Fresno,California,6019,3058,62
+2020-06-18,Imperial,California,6025,4659,59
+2020-06-18,Kern,California,6029,3600,60
+2020-06-18,Los Angeles,California,6037,78227,3027
+2020-06-18,Riverside,California,6065,12467,408
+2020-06-18,San Diego,California,6073,10155,331
+2020-06-18,San Francisco,California,6075,3023,47
+2020-06-19,Alameda,California,6001,4723,118
+2020-06-19,Contra Costa,California,6013,2148,56
+2020-06-19,Fresno,California,6019,3187,66
+2020-06-19,Imperial,California,6025,4744,63
+2020-06-19,Kern,California,6029,3716,60
+2020-06-19,Los Angeles,California,6037,79609,3063
+2020-06-19,Riverside,California,6065,12778,410
+2020-06-19,San Diego,California,6073,10413,332
+2020-06-19,San Francisco,California,6075,3060,47
+2020-06-20,Alameda,California,6001,4826,118
+2020-06-20,Contra Costa,California,6013,2240,56
+2020-06-20,Fresno,California,6019,3245,66
+2020-06-20,Imperial,California,6025,4800,63
+2020-06-20,Kern,California,6029,3803,60
+2020-06-20,Los Angeles,California,6037,81636,3110
+2020-06-20,Riverside,California,6065,12778,410
+2020-06-20,San Diego,California,6073,10547,338
+2020-06-20,San Francisco,California,6075,3061,47
+2020-06-21,Alameda,California,6001,4826,119
+2020-06-21,Contra Costa,California,6013,2294,62
+2020-06-21,Fresno,California,6019,3245,66
+2020-06-21,Imperial,California,6025,4800,63
+2020-06-21,Kern,California,6029,3900,60
+2020-06-21,Los Angeles,California,6037,83397,3120
+2020-06-21,Riverside,California,6065,13021,410
+2020-06-21,San Diego,California,6073,10857,338
+2020-06-21,San Francisco,California,6075,3061,47
+2020-06-22,Alameda,California,6001,5028,120
+2020-06-22,Contra Costa,California,6013,2369,62
+2020-06-22,Fresno,California,6019,3485,67
+2020-06-22,Imperial,California,6025,4800,63
+2020-06-22,Kern,California,6029,3975,60
+2020-06-22,Los Angeles,California,6037,85942,3137
+2020-06-22,Riverside,California,6065,13800,424
+2020-06-22,San Diego,California,6073,11159,338
+2020-06-22,San Francisco,California,6075,3188,48
+2020-06-23,Alameda,California,6001,5161,121
+2020-06-23,Contra Costa,California,6013,2454,62
+2020-06-23,Fresno,California,6019,3672,70
+2020-06-23,Imperial,California,6025,5270,67
+2020-06-23,Kern,California,6029,4059,66
+2020-06-23,Los Angeles,California,6037,88262,3171
+2020-06-23,Riverside,California,6065,14431,431
+2020-06-23,San Diego,California,6073,11357,341
+2020-06-23,San Francisco,California,6075,3222,48
+2020-06-24,Alameda,California,6001,5296,122
+2020-06-24,Contra Costa,California,6013,2523,67
+2020-06-24,Fresno,California,6019,3892,71
+2020-06-24,Imperial,California,6025,5549,69
+2020-06-24,Kern,California,6029,4118,66
+2020-06-24,Los Angeles,California,6037,89490,3205
+2020-06-24,Riverside,California,6065,14905,432
+2020-06-24,San Diego,California,6073,11689,347
+2020-06-24,San Francisco,California,6075,3252,48
+2020-06-25,Alameda,California,6001,5403,128
+2020-06-25,Contra Costa,California,6013,2576,72
+2020-06-25,Fresno,California,6019,4053,71
+2020-06-25,Imperial,California,6025,5744,72
+2020-06-25,Kern,California,6029,4192,70
+2020-06-25,Los Angeles,California,6037,91467,3246
+2020-06-25,Riverside,California,6065,15142,435
+2020-06-25,San Diego,California,6073,12024,352
+2020-06-25,San Francisco,California,6075,3300,48
+2020-06-26,Alameda,California,6001,5514,130
+2020-06-26,Contra Costa,California,6013,2676,73
+2020-06-26,Fresno,California,6019,4374,72
+2020-06-26,Imperial,California,6025,5838,72
+2020-06-26,Kern,California,6029,4310,70
+2020-06-26,Los Angeles,California,6037,93232,3267
+2020-06-26,Riverside,California,6065,15643,438
+2020-06-26,San Diego,California,6073,12464,358
+2020-06-26,San Francisco,California,6075,3403,48
+2020-06-27,Alameda,California,6001,5523,130
+2020-06-27,Contra Costa,California,6013,2688,73
+2020-06-27,Fresno,California,6019,4474,72
+2020-06-27,Imperial,California,6025,6041,80
+2020-06-27,Kern,California,6029,4366,70
+2020-06-27,Los Angeles,California,6037,95371,3285
+2020-06-27,Riverside,California,6065,15858,438
+2020-06-27,San Diego,California,6073,12900,360
+2020-06-27,San Francisco,California,6075,3471,49
+2020-06-28,Alameda,California,6001,5691,133
+2020-06-28,Contra Costa,California,6013,2802,74
+2020-06-28,Fresno,California,6019,4474,72
+2020-06-28,Imperial,California,6025,6041,80
+2020-06-28,Kern,California,6029,4488,70
+2020-06-28,Los Angeles,California,6037,97894,3305
+2020-06-28,Riverside,California,6065,16209,438
+2020-06-28,San Diego,California,6073,13397,361
+2020-06-28,San Francisco,California,6075,3515,50
+2020-06-29,Alameda,California,6001,5783,133
+2020-06-29,Contra Costa,California,6013,2971,76
+2020-06-29,Fresno,California,6019,4811,72
+2020-06-29,Imperial,California,6025,6187,80
+2020-06-29,Kern,California,6029,4558,70
+2020-06-29,Los Angeles,California,6037,100772,3326
+2020-06-29,Riverside,California,6065,16848,440
+2020-06-29,San Diego,California,6073,13895,361
+2020-06-29,San Francisco,California,6075,3564,50
+2020-06-30,Alameda,California,6001,5985,135
+2020-06-30,Contra Costa,California,6013,3132,76
+2020-06-30,Fresno,California,6019,5008,73
+2020-06-30,Imperial,California,6025,6242,92
+2020-06-30,Kern,California,6029,4665,70
+2020-06-30,Los Angeles,California,6037,103529,3369
+2020-06-30,Riverside,California,6065,17683,457
+2020-06-30,San Diego,California,6073,14212,365
+2020-06-30,San Francisco,California,6075,3606,50
