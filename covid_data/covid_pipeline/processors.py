@@ -125,7 +125,7 @@ def aggregate_covid_cases_by_group(fips_list, group_by_columns, df, aggregate_fi
     eg.
     date fips cases
     """
-    if "cases" in df:
+    if aggregate_field in df:
         if fips_list is not None:
             query_fips = list(map(covid_fips, fips_list))
             logging.debug("querying over covid_ips ids: %s", query_fips)
