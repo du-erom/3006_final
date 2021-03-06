@@ -87,6 +87,6 @@ class TestFunctions(unittest.TestCase):
         b =  housing.Housing('non-metro', 'all-transactions', 'State','New Hampshire', 'NH', 2020, 4, 105,0)
         l = [a, b]
         r = housing.yoy_change(l, 2020)
-        self.assertEqual(r, [['New Hampshire', 'NH', 2020, 4, 105.0, 5.0, 5.0]])
+        self.assertEqual(r, [['New Hampshire', 33, 2020, 4, 105.0, 5.0, 5.0, 2020.75]])
 if __name__ == '__main__':
     unittest.main()
