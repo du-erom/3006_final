@@ -67,7 +67,7 @@ class HousingData:
         c = Record(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9])
         #records csv data into Housing data object
         h = Housing(c.hpi_type, c.hpi_flavor, c.level, c.place_name, c.place_id, c.year, c.period, c.index_nsa, c.index_sa)
-        logger.debug('Housing obeject created for %s' %repr(h))
+        logger.debug('Housing object created for %s' %repr(h))
         return h
     #method that looks at a housing object and decides if it should be included in state data
     def sort_state(self, z):
@@ -152,20 +152,47 @@ class HousingData:
 def yoy_change(list, year):
     year_data=[]
     prev_year_data=[]
+    #create a dictionary to switch postal abbreviations to fips codes
+    dfile = 'state_fips_codes.txt'
+    dic={}
+    with open(dfile) as f:
+        reader = csv.reader(f, delimiter = "|")
+        next(reader, None)
+        for line in reader:
+            key = line[1]
+            value = line[0]
+            dic[key] = int(value)
     for geo in list:
+        #create a list from the housing object with just the attributes we want
         l = [geo.place_name, geo.place_id, geo.year, geo.period, geo.index_nsa]
+        #create lists to determine year over year change
         if geo.year == year:
             year_data.append(l)
         if geo.year == year - 1:
             prev_year_data.append(l)
+    #empty list for the year over year data
     yoy_change = []
+    #for each record in the year we are looking at
     for i in year_data:
+        #find the matching quarter data from the previous year
         for j in prev_year_data:
             if i[0]==j[0] and i[1]==j[1] and i[3]==j[3]:
+                #find the differnce in the HPI
                 d = i[4]-j[4]
+                #find the percentage differnce
                 p = d/j[4]*100
+                #append the differnces to the data
                 i.append(d)
                 i.append(p)
+                #create a decimal quarter of the year
+                yq = i[2]+0.25*(i[3]-1)
+                #and append it to the data
+                i.append(yq)
+                #replace post code state with fips codes
+                if len(i[1])==2:
+                    a = dic.get(i[1])
+                    i[1] = a
+                #append the list to our year over year data
                 yoy_change.append(i)
     return yoy_change
 def main():
@@ -173,12 +200,9 @@ def main():
     parser = argparse.ArgumentParser(description = \
     'Accept optional argument --plot')
     logger.debug('Parser started')
-    #add reload optional argument
-    #parser.add_argument('--reload', '-r', action = 'store_true', default = False)
-    #logger.debug('Listening for reload options')
-    #add optional argurment for plots
-    parser.add_argument('--plot', '-p', choices = ['hist', 'trend', 'all'])
-    logger.debug('Listening for plot option')
+    #add optional argurment for year
+    parser.add_argument('--year', '-y', choices = ['2016', '2017', '2018', '2019', '2020'])
+    logger.debug('Listening for year option')
     #save the parsed arguements
     args = parser.parse_args()
     #log that we parsed the arguements
@@ -189,43 +213,26 @@ def main():
         logger.info('HousingData object successfully created.')
     except Exception as e:
         logger.error('An exception occured while trying to create a HousingData object.')
-    #calculate 2020 year over year change in HPI on state level
-    state_change = yoy_change(o.state_data, 2020)
+    if args.year != None:
+        year = int(args.year)
+    else:
+        year = 2020
+    #calculate year over year change in HPI on state level
+    state_change = yoy_change(o.state_data, year)
     logger.info('State year over year change recorded')
-    #calculate 2020 year over year change in HPI on metro level
-    msa_change = yoy_change(o.metro_data, 2020)
+    #calculate year over year change in HPI on metro level
+    msa_change = yoy_change(o.metro_data, year)
     logger.info('Metro area year over year change recorded')
-    #create a dictionary to switch postal abbreviations to fips codes
-    file = 'state_fips_codes.txt'
-    dic={}
-    with open(file) as f:
-        reader = csv.reader(f, delimiter = "|")
-        next(reader, None)
-        for line in reader:
-            key = line[1]
-            value = line[0]
-            dic[key] = int(value)
-    #apply dictionary to state data
-    for record in state_change:
-        st = record[1]
-        a = dic.get(st)
-        record[1]=a
     #write state data to file
-    ofile = 'state_year_over_year_change.csv'
-    header = ['Place Name', 'Place ID', 'Year', 'Quarter', 'HPI', 'YoY change', '% YoY change']
+    ofile = 'state_year_over_year_change %d.csv' %year
+    header = ['Place Name', 'Place ID', 'Year', 'Quarter', 'HPI', 'YoY change', '% YoY change', 'year dec. quarter']
     with open(ofile, 'w', newline ='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         for line in state_change:
             writer.writerow(line)
-    #apply dictionary to non-metro state data:
-    for record in msa_change:
-        if len(record[1])==2:
-            st = record[1]
-            a = dic.get(st)
-            record[1]=a
     #write metro level data to file
-    oufile = 'metro_year_over_year_change.csv'
+    oufile = 'metro_year_over_year_change %d.csv' %year
     with open(oufile, 'w', newline ='') as f:
         writer = csv.writer(f)
         writer.writerow(header)

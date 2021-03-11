@@ -1,5 +1,3 @@
-Table with row headers in column A and column headers in row 3,,,,,
-"List 2. PRINCIPAL CITIES OF METROPOLITAN AND MICROPOLITAN STATISTICAL AREAS, SEPTEMBER 2018",,,,,
 CBSA Code,CBSA Title,Metropolitan/Micropolitan Statistical Area,Principal City Name,FIPS State Code,FIPS Place Code
 10100,"Aberdeen, SD",Micropolitan Statistical Area,Aberdeen,46,00100
 10140,"Aberdeen, WA",Micropolitan Statistical Area,Aberdeen,53,00100
@@ -174,7 +172,7 @@ CBSA Code,CBSA Title,Metropolitan/Micropolitan Statistical Area,Principal City N
 15740,"Cambridge, OH",Micropolitan Statistical Area,Cambridge,39,10996
 15780,"Camden, AR",Micropolitan Statistical Area,Camden,05,10720
 15820,"Campbellsville, KY",Micropolitan Statistical Area,Campbellsville,21,12160
-15860,"Cañon City, CO",Micropolitan Statistical Area,Cañon City,08,11810
+15860,"Caï¿½on City, CO",Micropolitan Statistical Area,Caï¿½on City,08,11810
 15940,"Canton-Massillon, OH",Metropolitan Statistical Area,Canton,39,12000
 15940,"Canton-Massillon, OH",Metropolitan Statistical Area,Massillon,39,48244
 15980,"Cape Coral-Fort Myers, FL",Metropolitan Statistical Area,Cape Coral,12,10275
@@ -365,7 +363,7 @@ CBSA Code,CBSA Title,Metropolitan/Micropolitan Statistical Area,Principal City N
 21460,"Enterprise, AL",Micropolitan Statistical Area,Enterprise,01,24184
 21500,"Erie, PA",Metropolitan Statistical Area,Erie,42,24000
 21540,"Escanaba, MI",Micropolitan Statistical Area,Escanaba,26,26360
-21580,"Española, NM",Micropolitan Statistical Area,Española,35,25170
+21580,"Espaï¿½ola, NM",Micropolitan Statistical Area,Espaï¿½ola,35,25170
 21640,"Eufaula, AL-GA",Micropolitan Statistical Area,Eufaula,01,24568
 21660,"Eugene-Springfield, OR",Metropolitan Statistical Area,Eugene,41,23850
 21660,"Eugene-Springfield, OR",Metropolitan Statistical Area,Springfield,41,69600
@@ -697,7 +695,7 @@ CBSA Code,CBSA Title,Metropolitan/Micropolitan Statistical Area,Principal City N
 32300,"Martinsville, VA",Micropolitan Statistical Area,Martinsville,51,49784
 32340,"Maryville, MO",Micropolitan Statistical Area,Maryville,29,46640
 32380,"Mason City, IA",Micropolitan Statistical Area,Mason City,19,50160
-32420,"Mayagüez, PR",Metropolitan Statistical Area,Mayagüez,72,52431
+32420,"Mayagï¿½ez, PR",Metropolitan Statistical Area,Mayagï¿½ez,72,52431
 32460,"Mayfield, KY",Micropolitan Statistical Area,Mayfield,21,50898
 32500,"Maysville, KY",Micropolitan Statistical Area,Maysville,21,51024
 32540,"McAlester, OK",Micropolitan Statistical Area,McAlester,40,44800
@@ -1029,7 +1027,7 @@ CBSA Code,CBSA Title,Metropolitan/Micropolitan Statistical Area,Principal City N
 41860,"San Francisco-Oakland-Berkeley, CA",Metropolitan Statistical Area,San Ramon,06,68378
 41860,"San Francisco-Oakland-Berkeley, CA",Metropolitan Statistical Area,South San Francisco,06,73262
 41860,"San Francisco-Oakland-Berkeley, CA",Metropolitan Statistical Area,Walnut Creek,06,83346
-41900,"San Germán, PR",Metropolitan Statistical Area,San Germán,72,76167
+41900,"San Germï¿½n, PR",Metropolitan Statistical Area,San Germï¿½n,72,76167
 41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Statistical Area,Cupertino,06,17610
 41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Statistical Area,Milpitas,06,47766
 41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Statistical Area,Mountain View,06,49670
@@ -1037,10 +1035,10 @@ CBSA Code,CBSA Title,Metropolitan/Micropolitan Statistical Area,Principal City N
 41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Statistical Area,San Jose,06,68000
 41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Statistical Area,Santa Clara,06,69084
 41940,"San Jose-Sunnyvale-Santa Clara, CA",Metropolitan Statistical Area,Sunnyvale,06,77000
-41980,"San Juan-Bayamón-Caguas, PR",Metropolitan Statistical Area,Bayamón,72,06593
-41980,"San Juan-Bayamón-Caguas, PR",Metropolitan Statistical Area,Caguas,72,10334
-41980,"San Juan-Bayamón-Caguas, PR",Metropolitan Statistical Area,Guaynabo,72,32522
-41980,"San Juan-Bayamón-Caguas, PR",Metropolitan Statistical Area,San Juan,72,76770
+41980,"San Juan-Bayamï¿½n-Caguas, PR",Metropolitan Statistical Area,Bayamï¿½n,72,06593
+41980,"San Juan-Bayamï¿½n-Caguas, PR",Metropolitan Statistical Area,Caguas,72,10334
+41980,"San Juan-Bayamï¿½n-Caguas, PR",Metropolitan Statistical Area,Guaynabo,72,32522
+41980,"San Juan-Bayamï¿½n-Caguas, PR",Metropolitan Statistical Area,San Juan,72,76770
 42020,"San Luis Obispo-Paso Robles, CA",Metropolitan Statistical Area,El Paso de Robles (Paso Robles),06,22300
 42020,"San Luis Obispo-Paso Robles, CA",Metropolitan Statistical Area,San Luis Obispo,06,68154
 42100,"Santa Cruz-Watsonville, CA",Metropolitan Statistical Area,Santa Cruz,06,69112
@@ -1269,7 +1267,3 @@ CBSA Code,CBSA Title,Metropolitan/Micropolitan Statistical Area,Principal City N
 49740,"Yuma, AZ",Metropolitan Statistical Area,Yuma,04,85540
 49780,"Zanesville, OH",Micropolitan Statistical Area,Zanesville,39,88084
 49820,"Zapata, TX",Micropolitan Statistical Area,Zapata,48,80716
-,,,,,
-Note: The 2010 OMB Standards for Delineating Metropolitan and Micropolitan Statistical Areas are at <https://www.gpo.gov/fdsys/pkg/FR-2010-06-28/pdf/2010-15605.pdf> and <https://www.gpo.gov/fdsys/pkg/FR-2010-07-07/pdf/2010-16368.pdf>.,,,,,
-"Source: File prepared by U.S. Census Bureau, Population Division, based on Office of Management and Budget, September 2018 delineations <https://www.whitehouse.gov/wp-content/uploads/2018/09/Bulletin-18-04.pdf>.",,,,,
-Internet Release Date: October 2018,,,,,
