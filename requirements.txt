@@ -4,3 +4,5 @@ scipy
 matplotlib
 unittest2
 jupyter
+joypy 
+seaborn

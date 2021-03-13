@@ -5,7 +5,7 @@ import logging
 import argparse
 import unittest
 #import matplotlib as plt
-#import numpy as np
+import numpy as np
 from collections import namedtuple, defaultdict
 
 logger = logging.getLogger()
@@ -124,7 +124,7 @@ class HousingData:
         raw_file = 'HPI_master.csv'
         #checks for existance of data file
         if os.path.isfile(raw_file):
-            logger.info('Data file found in directory')
+            logger.info('Loading Data file. This may take a few minutes.')
         #if the file is absent
         else:
             logger.error('Data file not found in working directory')
@@ -198,7 +198,7 @@ def yoy_change(list, year):
 def main():
     #instantiate argparse object
     parser = argparse.ArgumentParser(description = \
-    'Accept optional argument --plot')
+    'Accept optional arguments --year')
     logger.debug('Parser started')
     #add optional argurment for year
     parser.add_argument('--year', '-y', choices = ['2016', '2017', '2018', '2019', '2020'])
